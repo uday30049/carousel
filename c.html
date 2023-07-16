@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Custom Carousel</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .carousel {
+      width: 300px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel-item {
+      flex: 0 0 calc(100% / var(--page-size));
+      max-width: calc(100% / var(--page-size));
+      padding: 10px;
+      box-sizing: border-box;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      border-radius: 50%;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+      cursor: pointer;
+    }
+
+    .carousel-arrow-prev {
+      left: 5px;
+    }
+
+    .carousel-arrow-next {
+      right: 5px;
+    }
+
+    .page-size-container {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .page-size-label {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item">
+        <h5>Item 1</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 2</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 3</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 4</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 5</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 6</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 7</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 8</h5>
+      </div>
+      <div class="carousel-item">
+        <h5>Item 9</h5>
+      </div>
+    </div>
+    <div class="carousel-arrow carousel-arrow-prev" onclick="slide(-1)">&#8249;</div>
+    <div class="carousel-arrow carousel-arrow-next" onclick="slide(1)">&#8250;</div>
+  </div>
+
+  <div class="page-size-container">
+    <label class="page-size-label" for="page-size">Page Size: </label>
+    <select id="page-size" onchange="changePageSize(event)">
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="7">7</option>
+    </select>
+  </div>
+
+  <script>
+    const carousel = document.querySelector('.carousel');
+    const carouselInner = carousel.querySelector('.carousel-inner');
+    const carouselItems = carousel.querySelectorAll('.carousel-item');
+
+    let currentIndex = 0;
+    let pageSize = 3; // Initial page size
+
+    function updateCarousel() {
+      carouselInner.style.transform = `translateX(-${currentIndex * 100 / pageSize}%)`;
+    }
+
+    function slide(direction) {
+      currentIndex += direction;
+      currentIndex = Math.min(Math.max(currentIndex, 0), carouselItems.length - pageSize);
+      updateCarousel();
+    }
+
+    function changePageSize(event) {
+      pageSize = parseInt(event.target.value);
+      currentIndex = 0; // Reset current index when page size changes
+      document.documentElement.style.setProperty('--page-size', pageSize);
+      updateCarousel();
+    }
+
+    document.documentElement.style.setProperty('--page-size', pageSize);
+    updateCarousel();
+  </script>
+ 
+</body>
+
+</html>
